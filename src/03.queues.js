@@ -50,6 +50,6 @@ class PriorityQueue extends Queue {
 
   dequeue() {
     const value = this._collection.shift();
-    return value[0];
+    return value ? value[0] : undefined;
   }
 }
