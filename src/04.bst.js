@@ -181,30 +181,21 @@ class BST {
 
   // Tree traversal: breadth first
   levelOrder() {
-    const q = new PriorityQueue();
-    const populateQueue = function(node, priority=0) {
-      if(node === null) return;
-      q.enqueue([node.data, priority]);
-      populateQueue(node.left, priority - 1);
-      populateQueue(node.right, priority - 1);
+    if(this.root === null) return [];
+    const Q = []; // Queue
+    const result = []
+    // Push root to queue
+    Q.push(this.root);
+    while(Q.length > 0) {
+      const node = Q.shift();
+      result.push(node.data);
+      if(node.left) {
+        Q.push(node.left);
+      }
+      if(node.right) {
+        Q.push(node.right);
+      }
     }
-    populateQueue(this.root);
-    q;
-    const order = [];
-    while(q.size()) {
-      order.push(q.dequeue());
-    }
-    return order;
+    return result;
   }
 }
-
-const bst = new BST();
-bst.add(9);
-bst.add(4);
-bst.add(3);
-bst.add(6);
-bst.add(5);
-bst.add(7);
-bst.add(17);
-bst.add(22);
-bst.add(20);
