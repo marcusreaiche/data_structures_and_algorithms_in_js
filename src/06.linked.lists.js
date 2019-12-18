@@ -88,11 +88,34 @@ function LinkedList() {
     return true;
   }
 
-}
+  this.removeAt = function(idx) {
+    if(idx >= length || idx < 0) return false;
+    let currentNode = head;
+    let previousNode;
+    let count = 0;
+    while(count < idx) {
+      previousNode = currentNode;
+      currentNode = currentNode.next;
+      count++;
+    }
+    if(previousNode) {
+      previousNode.next = currentNode.next;
+    }
+    else {
+      head = currentNode.next;
+    }
+    length--;
+    return true;
+  }
 
-const cities = new LinkedList();
-cities.add("Rio de Janeiro");
-cities.add("São Paulo");
-cities.add("Toronto");
-cities.add("Calgary");
-cities.add("Vancouver");
+  this.elementAt = function(idx) {
+    if(idx >= length || idx < 0) return;
+    let count = 0;
+    let currentNode = head;
+    while(count < idx) {
+      currentNode = currentNode.next;
+      count++;
+    }
+    return currentNode.data;
+  }
+}
