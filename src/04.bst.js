@@ -127,36 +127,74 @@ class BST {
     this.root = removeNode(this.root, data);
   }
 
-  findMinHeight() {
-    return findMinHeightNode(this.root);
+  findMinHeight(node=this.root) {
+    if(node === null) {
+      return -1;
+    }
+    const leftHeight = this.findMinHeight(node.left);
+    const rightHeight = this.findMinHeight(node.right);
+    return 1 + Math.min(leftHeight, rightHeight);
   }
 
-  findMaxHeight() {
-    return findMaxHeightNode(this.root);
+  findMaxHeight(node=this.root) {
+    if(node === null) {
+      return -1;
+    }
+    const leftHeight = this.findMaxHeight(node.left);
+    const rightHeight = this.findMaxHeight(node.right);
+    return 1 + Math.max(leftHeight, rightHeight);
   }
 
   isBalance() {
     return this.findMinHeight() >= this.findMaxHeight() - 1;
   }
-}
 
-function findMinHeightNode(node) {
-  if(node === null || node.right === null || node.left === null) {
-    return 0;
+  // Tree traversal: depth first
+  inOrder(node=this.root) {
+    if(node === null) return [];
+    return [
+      ...this.inOrder(node.left),
+      node.data,
+      ...this.inOrder(node.right)
+    ];
   }
-  else {
-    return 1 + Math.min(findMinHeightNode(node.left),
-                      findMinHeightNode(node.right));
-  }
-}
 
-function findMaxHeightNode(node) {
-  if(node === null || (node.left === null && node.right === null)) {
-    return 0;
+  // Tree traversal: preOrder
+  preOrder(node=this.root) {
+    if(node === null) return [];
+    return [
+      node.data,
+      ...this.preOrder(node.left),
+      ...this.preOrder(node.right)
+    ];
   }
-  else {
-    return 1 + Math.max(findMaxHeightNode(node.left),
-                      findMaxHeightNode(node.right));
+
+  // Tree traversal: postOrder
+  postOrder(node=this.root) {
+    if(node === null) return [];
+    return [
+      ...this.postOrder(node.left),
+      ...this.postOrder(node.right),
+      node.data
+    ];
+  }
+
+  // Tree traversal: breadth first
+  levelOrder() {
+    const q = new PriorityQueue();
+    const populateQueue = function(node, priority=0) {
+      if(node === null) return;
+      q.enqueue([node.data, priority]);
+      populateQueue(node.left, priority - 1);
+      populateQueue(node.right, priority - 1);
+    }
+    populateQueue(this.root);
+    q;
+    const order = [];
+    while(q.size()) {
+      order.push(q.dequeue());
+    }
+    return order;
   }
 }
 
