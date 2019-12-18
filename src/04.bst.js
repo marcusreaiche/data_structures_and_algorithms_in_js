@@ -6,6 +6,7 @@ class Node {
   }
 }
 
+// Recursive function for adding a node
 const searchTree = (node, data) => {
   if (data < node.data) {
     if (node.left === null) {
@@ -25,6 +26,48 @@ const searchTree = (node, data) => {
   }
   // Do nothing if node.data === data
 }
+
+// Recursive function for deleting a node
+const removeNode = function(node, data) {
+  if(node === null) {
+    return null;
+  }
+  if(node.data === data) {
+    // No children
+    if(node.left === null && node.right === null) {
+      return null;
+    }
+    // Only left child
+    else if(node.right === null) {
+      return node.left;
+    }
+    // Only right child
+    else if(node.left === null) {
+      return node.right;
+    }
+    // Both children
+    else {
+      let nodeTemp = node.right;
+      while(nodeTemp.left) {
+        nodeTemp = nodeTemp.left;
+      }
+      node.data = nodeTemp.data;
+      node.right = removeNode(node.right, nodeTemp.data);
+      return node;
+    }
+  }
+  else if(node.data < data) {
+    // apply recursion to the right node
+    node.right = removeNode(node.right, data);
+    return node;
+  }
+  else {
+    // apply recursion to the left node
+    node.left = removeNode(node.left, data);
+    return node;
+  }
+}
+
 
 class BST {
   constructor() {
@@ -81,54 +124,6 @@ class BST {
   }
 
   remove(data) {
-    const removeNode = function(node, data) {
-      if(node === null) {
-        return null;
-      }
-      if(node.data === data) {
-        // No children
-        if(node.left === null && node.right === null) {
-          return null;
-        }
-        // Only left child
-        else if(node.right === null) {
-          return node.left;
-        }
-        // Only right child
-        else if(node.left === null) {
-          return node.right;
-        }
-        // Both children
-        else {
-          let nodeTemp = node.right;
-          while(nodeTemp.left) {
-            nodeTemp = nodeTemp.left;
-          }
-          node.data = nodeTemp.data;
-          node.right = removeNode(node.right, nodeTemp.data);
-          return node;
-        }
-      }
-      else if(node.data < data) {
-        // apply recursion to the right node
-        node.right = removeNode(node.right, data);
-        return node;
-      }
-      else {
-        // apply recursion to the left node
-        node.left = removeNode(node.left, data);
-        return node;
-      }
-    }
     this.root = removeNode(this.root, data);
   }
 }
-
-const nums = [];
-const bst = new BST();
-for(let i = 0; i < 10; i++) {
-  const value = Math.floor(Math.random() * 100);
-  nums.push(value);
-  bst.add(value);
-}
-
