@@ -126,4 +126,47 @@ class BST {
   remove(data) {
     this.root = removeNode(this.root, data);
   }
+
+  findMinHeight() {
+    return findMinHeightNode(this.root);
+  }
+
+  findMaxHeight() {
+    return findMaxHeightNode(this.root);
+  }
+
+  isBalance() {
+    return this.findMinHeight() >= this.findMaxHeight() - 1;
+  }
 }
+
+function findMinHeightNode(node) {
+  if(node === null || node.right === null || node.left === null) {
+    return 0;
+  }
+  else {
+    return 1 + Math.min(findMinHeightNode(node.left),
+                      findMinHeightNode(node.right));
+  }
+}
+
+function findMaxHeightNode(node) {
+  if(node === null || (node.left === null && node.right === null)) {
+    return 0;
+  }
+  else {
+    return 1 + Math.max(findMaxHeightNode(node.left),
+                      findMaxHeightNode(node.right));
+  }
+}
+
+const bst = new BST();
+bst.add(9);
+bst.add(4);
+bst.add(3);
+bst.add(6);
+bst.add(5);
+bst.add(7);
+bst.add(17);
+bst.add(22);
+bst.add(20);
