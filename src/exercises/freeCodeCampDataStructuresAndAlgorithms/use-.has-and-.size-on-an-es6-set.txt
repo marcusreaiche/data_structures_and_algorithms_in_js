@@ -1,0 +1,12 @@
+function checkSet(arrToBeSet, checkValue){
+
+   // change code below this line
+   const set = new Set(arrToBeSet);
+   const containsElement = set.has(checkValue);
+   const size = set.size;
+   return [containsElement, size];
+   // change code above this line
+
+}
+
+checkSet([ 1, 2, 3], 2); // Should return [ true, 3 ]

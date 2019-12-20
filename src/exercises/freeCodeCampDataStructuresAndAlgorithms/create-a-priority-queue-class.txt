@@ -1,0 +1,23 @@
+function PriorityQueue () {
+    this.collection = [];
+    this.printCollection = function() {
+      console.log(this.collection);
+    };
+    // Only change code below this line
+    this.size = () => this.collection.length;
+    this.isEmpty = () => !this.size();
+    this.enqueue = function(element) {
+      const [, priority] = element;
+      let idx = 0;
+      this.collection.forEach(item => {
+        if(priority >= item[1]) idx++;
+      });
+      this.collection.splice(idx, 0, element);
+      return element;
+    }
+    this.dequeue = () => {
+      const item = this.collection.shift();
+      return item ? item[0] : undefined;
+    };
+    // Only change code above this line
+}
