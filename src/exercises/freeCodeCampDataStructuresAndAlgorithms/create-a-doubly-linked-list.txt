@@ -1,0 +1,71 @@
+var Node = function(data, prev) {
+  this.data = data;
+  this.prev = prev;
+  this.next = null;
+};
+var DoublyLinkedList = function() {
+  this.head = null;
+  this.tail = null;
+  // change code below this line
+  let length = 0;
+  this.add = function(element) {
+    if(!length) {
+      const node = new Node(element, null);
+      this.head = node;
+      this.tail = node;
+      length++;
+    }
+    else {
+      const previousTail = this.tail;
+      const node = new Node(element, previousTail);
+      previousTail.next = node;
+      this.tail = node;
+      length++;
+    }
+  }
+  this.size = () => length;
+  this.remove = function(element) {
+    // remove all occurrences of element
+    if(!length) return null;
+    const L = length;
+    let node = this.head;
+    for(let i = 0; i < L; i++) {
+      const nextNode = node.next;
+      if(node.data === element) {
+        removeNode.bind(this)(node);
+      }
+      node = nextNode;
+    }
+  }
+  function removeNode(node) {
+    if(node.prev === null) {
+      // node is the head
+      this.head = node.next;
+      if(this.head === null) {
+        // empty list
+        this.tail = null;
+        length = 0;
+      }
+      else {
+        this.head.prev = null;
+        length--;
+      }
+    }
+    else if(node.next === null) {
+      // node is the tail and there are at least two nodes
+      const prevNode = node.prev;
+      prevNode.next = null;
+      this.tail = prevNode;
+      length--;
+    }
+    else {
+      //  node has both neighbours
+      const prevNode = node.prev;
+      const nextNode = node.next;
+      prevNode.next = nextNode;
+      nextNode.prev = prevNode;
+      length--;
+    }
+  }
+  // change code above this line
+};

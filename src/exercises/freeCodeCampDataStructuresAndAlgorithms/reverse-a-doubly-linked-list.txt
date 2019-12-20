@@ -1,0 +1,37 @@
+var Node = function(data, prev) {
+  this.data = data;
+  this.prev = prev;
+  this.next = null;
+};
+var DoublyLinkedList = function() {
+  this.head = null;
+  this.tail = null;
+  // change code below this line
+  let length = 0;
+  this.reverse = function(){
+    if(!length) return null;
+    let node = this.head;
+    for(let i = 0; i < length; i++) {
+      const nextNode = node.next;
+      [node.prev, node.next] = [node.next, node.prev];
+      node = nextNode;
+    }
+    [this.head, this.tail] = [this.tail, this.head];
+  }
+  this.add = function(element) {
+    if(!length) {
+      const node = new Node(element, null);
+      this.head = node;
+      this.tail = node;
+      length++;
+    }
+    else {
+      const previousTail = this.tail;
+      const node = new Node(element, previousTail);
+      previousTail.next = node;
+      this.tail = node;
+      length++;
+    }
+  }
+  // change code above this line
+};
