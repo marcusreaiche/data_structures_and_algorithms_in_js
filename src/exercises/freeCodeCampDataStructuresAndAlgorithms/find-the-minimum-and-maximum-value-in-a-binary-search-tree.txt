@@ -1,0 +1,68 @@
+var displayTree = tree => console.log(JSON.stringify(tree, null, 2));
+function Node(value) {
+  this.value = value;
+  this.left = null;
+  this.right = null;
+}
+function BinarySearchTree() {
+  this.root = null;
+  // change code below this line
+  this.findMin = function() {
+    if(!this.root) return null;
+    let node = this.root;
+    while(node.left) {
+      node = node.left;
+    }
+    return node.value;
+  }
+  this.findMax = function() {
+    if(!this.root) return null;
+    let node = this.root;
+    while(node.right) {
+      node = node.right;
+    }
+    return node.value;
+  }
+  // change code above this line
+  this.add = function(element, node=this.root) {
+    const newNode = new Node(element);
+    if(!node) {
+      // root is empty
+      this.root = newNode;
+    }
+    else if(node.value > element) {
+      if (node.left === null) {
+        node.left = newNode;
+      }
+      else {
+        this.add(element, node.left);
+      }
+    }
+    else if(node.value < element) {
+      if (node.right === null) {
+        node.right = newNode;
+      }
+      else {
+        this.add(element, node.right);
+      }
+    }
+    else{
+      return null;
+    }
+  }
+}
+const bst = new BinarySearchTree();
+console.log(bst.findMin());
+console.log(bst.findMax());
+bst.add(8);
+bst.add(3);
+bst.add(10);
+bst.add(1);
+bst.add(6);
+bst.add(4);
+bst.add(7);
+bst.add(10);
+bst.add(14);
+bst.add(13);
+console.log(bst.findMin());
+console.log(bst.findMax());

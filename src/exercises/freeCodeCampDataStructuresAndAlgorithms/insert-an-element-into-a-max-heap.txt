@@ -1,0 +1,14 @@
+var MaxHeap = function() {
+  // change code below this line
+  const array = [null];
+  this.print = () => array;
+  this.insert = function(element) {
+    array.push(element);
+    let idx = array.length - 1;
+    while(array[idx] > array[Math.floor(idx / 2)] && idx > 1) {
+      [array[idx], array[Math.floor(idx / 2)]] = [array[Math.floor(idx / 2)], array[idx]];
+      idx = Math.floor(idx / 2);
+    }
+  }
+  // change code above this line
+};

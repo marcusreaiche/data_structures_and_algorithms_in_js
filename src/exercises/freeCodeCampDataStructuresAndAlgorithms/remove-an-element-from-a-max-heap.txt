@@ -1,0 +1,48 @@
+var MaxHeap = function() {
+  // change code below this line
+  const array = [null];
+  this.print = () => array;
+  this.size = () => array.length - 1;
+  this.insert = function(element) {
+    array.push(element);
+    let idx = array.length - 1;
+    while(array[idx] > array[Math.floor(idx / 2)] && idx > 1) {
+      [array[idx], array[Math.floor(idx / 2)]] = [array[Math.floor(idx / 2)], array[idx]];
+      idx = Math.floor(idx / 2);
+    }
+  }
+  this.remove = () => {
+    if(!this.size()) return null;
+    const greatest = array[1];
+    // swap first and last positions
+    [array[1], array[this.size()]] = [array[this.size()], array[1]];
+    // remove last position
+    array.splice(this.size(), 1);
+    // rearrange tree
+    rearrangeTree(1);
+    // return greatest
+    return greatest;
+  }
+  function rearrangeTree(idx) {
+    const leftChild = 2 * idx;
+    const rightChild = 2 * idx + 1;
+    let maxChild = leftChild;
+    if(array[rightChild] !== undefined && array[rightChild] > array[leftChild]) {
+      maxChild = rightChild;
+    }
+    if(array[maxChild] !== undefined && array[idx] < array[maxChild]) {
+      [array[idx], array[maxChild]] = [array[maxChild], array[idx]];
+      // call recursive function
+      rearrangeTree(maxChild);
+    }
+  }
+  // change code above this line
+};
+const h = new MaxHeap();
+for(let i = 0; i < 10; i++) {
+  h.insert(parseInt(Math.random() * 100));
+}
+console.log(h.print());
+while(h.size()) {
+  console.log(h.remove())
+}
