@@ -1,0 +1,37 @@
+function dfs(graph, root) {
+  const reachableNodes = [];
+    
+  function addNode(node) {
+    if(reachableNodes.includes(node)) {
+      return;
+    }
+    else { 
+      reachableNodes.push(node);
+      const nodeNeighs = graph[node].reduce((acc, value, i) => {
+        return value ? [...acc, i] : acc;
+      }, []);
+      console.log(node, nodeNeighs);
+      for(let neigh of nodeNeighs) {
+        addNode(neigh);
+      }
+    }
+  }
+
+  addNode(root);
+  return reachableNodes;
+}
+
+var exDFSGraph = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // 0
+  [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0], // 1
+  [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0], // 2
+  [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0], // 3
+  [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], // 4
+  [0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0], // 5
+  [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0], // 6
+  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], // 7
+  [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], // 8
+  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], // 9
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]  // 10
+];
+console.log(dfs(exDFSGraph, 1));

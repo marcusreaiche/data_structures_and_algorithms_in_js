@@ -1,0 +1,40 @@
+function bfs(graph, root) {
+  // Distance object returned
+  var nodesLen = {};
+  // Initial set of the distance object
+  for(let i = 0; i < graph.length; i++) {
+    nodesLen[i] = Infinity;
+  }
+  nodesLen[root] = 0;
+  // Queue
+  const queue = [root];
+
+  while(queue.length) {
+    const node = queue.shift();
+    // node neighbours
+    const nodeNeighbours = [];
+    let idx = graph[node].indexOf(1);
+    while(idx !== -1) {
+      nodeNeighbours.push(idx);
+      idx = graph[node].indexOf(1, idx + 1);
+    }
+    // add node neighbours that have not been visited yet
+    nodeNeighbours.forEach(neigh => {
+      if(nodesLen[neigh] === Infinity) {
+        // first time visited
+        nodesLen[neigh] = nodesLen[node] + 1;
+        queue.push(neigh);
+      }
+    });
+  }
+
+  return nodesLen;
+};
+
+var exBFSGraph = [
+  [0, 1, 0, 0],
+  [1, 0, 1, 0],
+  [0, 1, 0, 1],
+  [0, 0, 1, 0]
+];
+console.log(bfs(exBFSGraph, 3));
