@@ -1,0 +1,106 @@
+var displayTree = tree => console.log(JSON.stringify(tree, null, 2));
+function Node(value) {
+  this.value = value;
+  this.left = null;
+  this.right = null;
+}
+
+function BinarySearchTree() {
+  this.root = null;
+  this.numberOfChildren = function(node) {
+    if (node === null) return null;
+    let nChildren = 0;
+    node.left && nChildren++;
+    node.right && nChildren++;
+    return nChildren;
+  }
+  this.remove = function(element) {
+    function deleteNode(element, node) {
+      if (node === null) return null;
+      if(element < node.value) {
+        // element is in the left subtree
+        node.left = deleteNode.bind(this)(element, node.left);
+        return node;
+      }
+      else if (element > node.value) {
+        // element is in the right subtree
+        node.right = deleteNode.bind(this)(element, node.right);
+        return node;
+      }
+      else {
+        // base case: node.value is equal to element
+        const nChildren = this.numberOfChildren(node);
+        if(nChildren === 0) {
+          return null;
+        }
+        else if(nChildren === 1) {
+          return node.left || node.right;
+        }
+        else {
+          /* 
+          two children: 3 steps
+          i: set the node value equal to the smallest element of its right subtree
+          ii: call recursive function on node.right
+          iii: return node
+          */
+          // step 1
+          let smallestElement = node.right;
+          while(smallestElement.left) {
+            smallestElement = smallestElement.left;
+          }
+          node.value = smallestElement.value;
+          // step 2
+          node.right = deleteNode.bind(this)(smallestElement.value, node.right);
+          // step 3
+          return node;
+        }
+      }
+    }
+    this.root = deleteNode.bind(this)(element, this.root);
+  }
+
+  this.add = function(element, node=this.root) {
+    const newNode = new Node(element);
+    if(!node) {
+      // root is empty
+      this.root = newNode;
+    }
+    else if(node.value > element) {
+      if (node.left === null) {
+        node.left = newNode;
+      }
+      else {
+        this.add(element, node.left);
+      }
+    }
+    else if(node.value < element) {
+      if (node.right === null) {
+        node.right = newNode;
+      }
+      else {
+        this.add(element, node.right);
+      }
+    }
+    else{
+      return null;
+    }
+  }
+}
+const bst = new BinarySearchTree();
+displayTree(bst);
+bst.add(8);
+displayTree(bst);
+bst.remove(8)
+displayTree(bst);
+/*
+bst.add(2);
+bst.add(10);
+bst.add(1);
+bst.add(4);
+bst.add(3);
+bst.add(10);
+bst.add(13);
+displayTree(bst);
+bst.remove(2);
+displayTree(bst);
+*/
