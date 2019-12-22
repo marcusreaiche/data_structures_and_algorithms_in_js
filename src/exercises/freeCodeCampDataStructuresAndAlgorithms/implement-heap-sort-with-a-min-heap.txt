@@ -1,0 +1,59 @@
+// check if array is sorted
+function isSorted(arr) {
+  var check = i =>
+    i == arr.length - 1 ? true : arr[i] > arr[i + 1] ? false : check(i + 1);
+  return check(0);
+}
+// generate a randomly filled array
+var array = new Array();
+(function createArray(size = 5) {
+  array.push(+(Math.random() * 100).toFixed(0));
+  return size > 1 ? createArray(size - 1) : undefined;
+})(25);
+var MinHeap = function() {
+  // change code below this line
+  const array = [null];
+  this.print = () => array;
+  this.size = () => array.length - 1;
+  this.insert = function(element) {
+    array.push(element);
+    let idx = array.length - 1;
+    while(array[idx] < array[Math.floor(idx / 2)] && idx > 1) {
+      [array[idx], array[Math.floor(idx / 2)]] = [array[Math.floor(idx / 2)], array[idx]];
+      idx = Math.floor(idx / 2);
+    }
+  }
+  this.remove = function(){
+    if(!this.size()) return null;
+    const smallest = array[1];
+    // swap first and last positions
+    [array[1], array[this.size()]] = [array[this.size()], array[1]];
+    // remove last position
+    array.splice(this.size(), 1);
+    // rearrange tree
+    rearrangeTree(1);
+    // return the smallest
+    return smallest;
+  }
+  function rearrangeTree(idx) {
+    const leftChild = 2 * idx;
+    const rightChild = 2 * idx + 1;
+    let minChild = leftChild;
+    if(array[rightChild] !== undefined && array[rightChild] < array[leftChild]) {
+      minChild = rightChild;
+    }
+    if(array[minChild] !== undefined && array[idx] > array[minChild]) {
+      [array[idx], array[minChild]] = [array[minChild], array[idx]];
+      // call recursive function
+      rearrangeTree(minChild);
+    }
+  }
+  this.sort = function() {
+    const sortedArray = [];
+    while(this.size()) {
+      sortedArray.push(this.remove());
+    }
+    return sortedArray;
+  }
+  // change code above this line
+};
