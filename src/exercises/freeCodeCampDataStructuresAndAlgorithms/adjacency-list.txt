@@ -1,0 +1,6 @@
+var undirectedAdjList = {
+    James: ["Jeff"],
+    Jill: ["Jenny"],
+    Jenny: ["Jeff", "Jill"],
+    Jeff: ["James", "Jenny"],
+};
