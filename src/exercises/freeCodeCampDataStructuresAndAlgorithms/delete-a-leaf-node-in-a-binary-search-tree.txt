@@ -38,8 +38,8 @@ function BinarySearchTree() {
           return node.left || node.right;
         }
         else {
-          /* 
-          two children: 2 steps
+          /*
+          two children: 3 steps
           i: set the node value equal to the smallest element of its right subtree
           ii: call recursive function on node.right
           iii: return node
