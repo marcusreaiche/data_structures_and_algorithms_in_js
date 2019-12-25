@@ -1,0 +1,18 @@
+function sym(...args) {
+  return args.map(arg => [...new Set(arg)])
+    .reduce((acc, item) => {
+      return [...setDifference(acc, item), ...setDifference(item, acc)]
+    }, []);
+}
+
+function setDifference(A, B) {
+  const D = [];
+  A.forEach(elem => {
+    if(!B.includes(elem)) {
+      D.push(elem);
+    }
+  });
+  return D;
+}
+
+sym([1, 2, 3], [5, 2, 1, 4]);
