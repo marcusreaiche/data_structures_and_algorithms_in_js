@@ -1,0 +1,46 @@
+function permAlone(str) {
+  if(str.length > 1 && (new Set(str.split(""))).size === 1) return 0;
+  const re = /([a-z])\1/;
+  const arr = str.split("");
+  const arrPerm = perm(arr);
+  
+
+  return arrPerm.filter(arr => !re.test(arr.join("")))
+                .length;
+}
+/*
+console.log(permAlone('aab'));
+console.log(permAlone('aaa'));
+console.log(permAlone('aabb'));
+console.log(permAlone('abcdefa'));
+console.log(permAlone('abfdefa'));
+console.log(permAlone('zzzzzzzz'));
+*/
+
+// Auxiliary functions
+function perm(arr) {
+  if(arr.length === 0) {
+    return [[]];
+  }
+  else {
+    let res = [];
+    perm(arr.slice(1)).forEach(elem => {
+      res = [...res, ...insert(arr[0], elem)];
+    });
+    return res;
+  }
+}
+
+function insert(elem, arr) {
+  const res = [];
+  for(let i = 0; i <= arr.length; i++) {
+    const newArr = [...arr];
+    newArr.splice(i, 0, elem);
+    res.push(newArr);
+  }
+  return res;
+}
+
+const s = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
+console.log(permAlone(s));
+

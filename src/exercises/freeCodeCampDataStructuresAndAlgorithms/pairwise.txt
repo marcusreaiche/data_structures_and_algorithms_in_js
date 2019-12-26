@@ -1,0 +1,20 @@
+function pairwise(arr, arg) {
+  let res = 0;
+  const usedIndexes = [];
+  for(let i = 0; i < arr.length - 1; i++) {
+    for(let j = i + 1; j < arr.length; j++) {
+      if(arr[i] + arr[j] === arg && !usedIndexes.includes(i) && !usedIndexes.includes(j)) {
+        usedIndexes.push(i);
+        usedIndexes.push(j);
+        res += (i + j);
+      }
+    }
+  }
+  return res;
+}
+
+console.log(pairwise([1,4,2,3,0,5], 7));
+console.log(pairwise([1,3,2,4], 4));
+console.log(pairwise([1,1,1], 2));
+console.log(pairwise([0,0,0,0,1,1], 1));
+console.log(pairwise([], 100));
